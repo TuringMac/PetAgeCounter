@@ -1,0 +1,3 @@
+<Project>
+	<Import Project="Directory.Build.Override.props" Condition="Exists('Directory.Build.Override.props')" />
+</Project>

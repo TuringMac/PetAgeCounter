@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             x:Class="AgeCounter.AddEditItemPage"
+             Title="AddEditItemPage">
+    <VerticalStackLayout>
+        <Entry Placeholder="Кличка" Text="{Binding Name}" />
+        <DatePicker Date="{Binding BirthDate}" MaximumDate="{x:Static System:DateTime.Today}"/>
+        <DatePicker Date="{Binding DeathDate}" MaximumDate="{x:Static System:DateTime.MaxValue}"/>
+        <Button Text="Сохранить" Clicked="OnSaveClicked" />
+        <Button Text="Отменить" Clicked="OnCancelClicked" />
+    </VerticalStackLayout>
+</ContentPage>
