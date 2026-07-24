@@ -17,6 +17,6 @@ namespace PetAgeCounter
         [Ignore]
         public DateDifference Offset => new DateDifference(BirthDate, DateTime.Today);
         [Ignore]
-        public string FormattedOffset => $"{Offset.Years}y {Offset.Months}m {Offset.Days}d";
+        public string FormattedOffset => $"{Offset.Years}г {Offset.Months}м {Offset.Days}д";
     }
 }

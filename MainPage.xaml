@@ -15,11 +15,11 @@
                             <SwipeView>
                                 <SwipeView.RightItems>
                                     <SwipeItems>
-                                        <SwipeItem Text="Edit"
+                                        <SwipeItem Text="Редактировать"
                                             IconImageSource="pen.png"
                                             BackgroundColor="LightGreen"
                                             Invoked="OnEditSwipeItemInvoked" />
-                                        <SwipeItem Text="Delete"
+                                        <SwipeItem Text="Удалить"
                                             IconImageSource="delete.png"
                                             BackgroundColor="LightPink"
                                             Invoked="OnDeleteSwipeItemInvoked" />
