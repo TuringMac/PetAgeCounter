@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace AgeCounter
+namespace PetAgeCounter
 {
     [Application]
     public class MainApplication : MauiApplication

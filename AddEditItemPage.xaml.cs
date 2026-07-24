@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace AgeCounter;
+namespace PetAgeCounter;
 
 public partial class AddEditItemPage : ContentPage
 {

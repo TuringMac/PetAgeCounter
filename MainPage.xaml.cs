@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace AgeCounter
+namespace PetAgeCounter
 {
     public partial class MainPage : ContentPage
     {

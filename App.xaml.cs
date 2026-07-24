@@ -1,4 +1,4 @@
-﻿namespace AgeCounter
+﻿namespace PetAgeCounter
 {
     public partial class App : Application
     {

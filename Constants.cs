@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgeCounter
+namespace PetAgeCounter
 {
     public static class Constants
     {
-        public const string DatabaseFilename = "AgeCounter.db3";
+        public const string DatabaseFilename = "PetAgeCounter.db3";
 
         public const SQLite.SQLiteOpenFlags Flags =
             // open the database in read/write mode

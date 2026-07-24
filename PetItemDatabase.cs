@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgeCounter
+namespace PetAgeCounter
 {
     public class PetItemDatabase
     {

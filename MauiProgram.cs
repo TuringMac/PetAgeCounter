@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace AgeCounter
+namespace PetAgeCounter
 {
     public static class MauiProgram
     {
