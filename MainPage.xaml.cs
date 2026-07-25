@@ -35,7 +35,7 @@ namespace PetAgeCounter
 
         async void OnDeleteSwipeItemInvoked(object? sender, EventArgs e)
         {
-            if (sender is SwipeItem swipeItem && swipeItem.BindingContext is PetItem item)
+            if (GetPetItem(sender) is PetItem item)
             {
                 await petItemDatabase.DeleteItemAsync(item);
                 await LoadPetItemsAsync();
@@ -44,8 +44,23 @@ namespace PetAgeCounter
 
         async void OnEditSwipeItemInvoked(object? sender, EventArgs e)
         {
-            if (sender is SwipeItem swipeItem && swipeItem.BindingContext is PetItem item)
+            if (GetPetItem(sender) is PetItem item)
                 await Navigation.PushAsync(new AddEditItemPage(petItemDatabase, item));
+        }
+
+        static PetItem? GetPetItem(object? sender)
+        {
+            if (sender is not Element element)
+                return null;
+
+            while (element != null)
+            {
+                if (element.BindingContext is PetItem item)
+                    return item;
+                element = element.Parent;
+            }
+
+            return null;
         }
 
         async void OnAddItemClicked(object? sender, TappedEventArgs e)

@@ -13,14 +13,38 @@
                         <SwipeView>
                             <SwipeView.RightItems>
                                 <SwipeItems>
-                                    <SwipeItem Text="Редактировать"
-                                        IconImageSource="pen.png"
-                                        BackgroundColor="LightGreen"
-                                        Invoked="OnEditSwipeItemInvoked" />
-                                    <SwipeItem Text="Удалить"
-                                        IconImageSource="delete.png"
-                                        BackgroundColor="LightPink"
-                                        Invoked="OnDeleteSwipeItemInvoked" />
+                                    <SwipeItemView BackgroundColor="Transparent"
+                                                   Invoked="OnEditSwipeItemInvoked">
+                                        <Border WidthRequest="56"
+                                                HeightRequest="56"
+                                                BackgroundColor="#1E88E5"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 14"
+                                                VerticalOptions="Center"
+                                                Margin="0,0,6,0">
+                                            <Image Source="edit.svg"
+                                                   WidthRequest="22"
+                                                   HeightRequest="22"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                    </SwipeItemView>
+                                    <SwipeItemView BackgroundColor="Transparent"
+                                                   Invoked="OnDeleteSwipeItemInvoked">
+                                        <Border WidthRequest="56"
+                                                HeightRequest="56"
+                                                BackgroundColor="#E53935"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 14"
+                                                VerticalOptions="Center"
+                                                Margin="0,0,8,0">
+                                            <Image Source="delete.svg"
+                                                   WidthRequest="22"
+                                                   HeightRequest="22"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Border>
+                                    </SwipeItemView>
                                 </SwipeItems>
                             </SwipeView.RightItems>
                             <HorizontalStackLayout Padding="0,8">
