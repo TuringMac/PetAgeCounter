@@ -48,7 +48,7 @@ namespace PetAgeCounter
                 await Navigation.PushAsync(new AddEditItemPage(petItemDatabase, item));
         }
 
-        async void OnAddItemClicked(object? sender, EventArgs e)
+        async void OnAddItemClicked(object? sender, TappedEventArgs e)
         {
             await Navigation.PushAsync(new AddEditItemPage(petItemDatabase));
         }
@@ -79,7 +79,6 @@ namespace PetAgeCounter
 
             AliveFilterButton.BackgroundColor = currentFilter == ListFilter.Alive ? activeColor : inactiveColor;
             DeceasedFilterButton.BackgroundColor = currentFilter == ListFilter.Deceased ? activeColor : inactiveColor;
-            AddButton.IsVisible = currentFilter == ListFilter.Alive;
         }
 
         bool MatchesFilter(PetItem item) =>
