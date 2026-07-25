@@ -17,7 +17,7 @@ namespace PetAgeCounter
                 return;
 
             database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            var result = await database.CreateTableAsync<PetItem>();
+            await database.CreateTableAsync<PetItem>();
         }
 
         public async Task<List<PetItem>> GetItemsAsync()

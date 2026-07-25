@@ -4,10 +4,31 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              x:Class="PetAgeCounter.AddEditItemPage"
              Title="Данные питомца">
-    <VerticalStackLayout>
+    <VerticalStackLayout Padding="20" Spacing="12">
         <Entry Placeholder="Кличка" Text="{Binding Name}" />
-        <DatePicker Date="{Binding BirthDate}" MaximumDate="{x:Static System:DateTime.Today}"/>
-        <DatePicker Date="{Binding DeathDate}" MaximumDate="{x:Static System:DateTime.MaxValue}"/>
+
+        <Label Text="Дата рождения" FontSize="Small" TextColor="Gray" />
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <DatePicker Grid.Column="0"
+                        Date="{Binding BirthDate}"
+                        MaximumDate="{x:Static System:DateTime.Today}" />
+            <ImageButton x:Name="MarkDeceasedButton"
+                         Grid.Column="1"
+                         Source="rainbow.svg"
+                         BackgroundColor="Transparent"
+                         HeightRequest="40"
+                         WidthRequest="40"
+                         Aspect="AspectFit"
+                         Clicked="OnMarkDeceasedClicked" />
+        </Grid>
+
+        <VerticalStackLayout IsVisible="{Binding IsDeceased}" Spacing="4">
+            <Label Text="Дата смерти" FontSize="Small" TextColor="Gray" />
+            <DatePicker x:Name="DeathDatePicker"
+                        Date="{Binding DeathDate}"
+                        MaximumDate="{x:Static System:DateTime.Today}" />
+        </VerticalStackLayout>
+
         <Button Text="Сохранить" Clicked="OnSaveClicked" />
         <Button Text="Отменить" Clicked="OnCancelClicked" />
     </VerticalStackLayout>

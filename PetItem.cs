@@ -1,25 +1,32 @@
-﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SQLite;
 
 namespace PetAgeCounter
 {
-    public class PetItem
+    public class PetItem : ObservableObject
     {
+        bool isDeceased;
+
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; } = "";
         public DateTime BirthDate { get; set; } = DateTime.MinValue;
         public DateTime DeathDate { get; set; } = DateTime.MaxValue;
+
+        public bool IsDeceased
+        {
+            get => isDeceased;
+            set => SetProperty(ref isDeceased, value);
+        }
+
         [Ignore]
-        public bool IsAlive => DeathDate == DateTime.MaxValue;
+        public bool IsAlive => !IsDeceased;
+
         [Ignore]
-        public bool IsDeceased => DeathDate != DateTime.MaxValue;
-        [Ignore]
-        public DateDifference Offset => new DateDifference(BirthDate, DateTime.Today);
+        public DateDifference Offset => IsDeceased
+            ? new DateDifference(BirthDate, DeathDate)
+            : new DateDifference(BirthDate, DateTime.Today);
+
         [Ignore]
         public string FormattedOffset => $"{Offset.Years}г {Offset.Months}м {Offset.Days}д";
     }
