@@ -46,5 +46,15 @@ namespace PetAgeCounter
             await Init();
             return await database.DeleteAsync(item);
         }
+
+        public async Task ImportItemsAsync(IEnumerable<PetItem> items)
+        {
+            await Init();
+            foreach (var item in items)
+            {
+                item.Id = 0;
+                await database.InsertAsync(item);
+            }
+        }
     }
 }

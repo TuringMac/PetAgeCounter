@@ -9,6 +9,7 @@ namespace PetAgeCounter
             var builder = MauiApp.CreateBuilder();
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddTransient<AddEditItemPage>();
+            builder.Services.AddTransient<SettingsPage>();
             builder.Services.AddScoped<PetItemDatabase>();
             builder
                 .UseMauiApp<App>()

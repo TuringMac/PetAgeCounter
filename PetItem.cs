@@ -15,6 +15,10 @@ namespace PetAgeCounter
         public DateTime BirthDate { get; set; } = DateTime.MinValue;
         public DateTime DeathDate { get; set; } = DateTime.MaxValue;
         [Ignore]
+        public bool IsAlive => DeathDate == DateTime.MaxValue;
+        [Ignore]
+        public bool IsDeceased => DeathDate != DateTime.MaxValue;
+        [Ignore]
         public DateDifference Offset => new DateDifference(BirthDate, DateTime.Today);
         [Ignore]
         public string FormattedOffset => $"{Offset.Years}г {Offset.Months}м {Offset.Days}д";

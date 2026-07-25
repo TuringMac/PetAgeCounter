@@ -5,15 +5,25 @@ namespace PetAgeCounter
 {
     public partial class MainPage : ContentPage
     {
-        PetItemDatabase petItemDatabase;
-        public ObservableCollection<PetItem> Persons { get; set; } = new ObservableCollection<PetItem>();
+        enum ListFilter
+        {
+            Alive,
+            Deceased
+        }
+
+        readonly PetItemDatabase petItemDatabase;
+        ListFilter currentFilter = ListFilter.Alive;
+
+        public ObservableCollection<PetItem> Persons { get; set; } = new();
 
         public MainPage(PetItemDatabase Database)
         {
             InitializeComponent();
             petItemDatabase = Database;
             BindingContext = this;
-            WeakReferenceMessenger.Default.Register<PetItem>(this, (_, item) => Persons.Add(item));
+            WeakReferenceMessenger.Default.Register<PetItem>(this, async (_, _) => await LoadPetItemsAsync());
+            WeakReferenceMessenger.Default.Register<ItemsImportedMessage>(this, async (_, _) => await LoadPetItemsAsync());
+            UpdateFilterUi();
         }
 
         protected override async void OnAppearing()
@@ -22,46 +32,69 @@ namespace PetAgeCounter
             await LoadPetItemsAsync();
         }
 
-        private async void OnDeleteSwipeItemInvoked(object? sender, EventArgs e)
+
+        async void OnDeleteSwipeItemInvoked(object? sender, EventArgs e)
         {
-            if (sender is SwipeItem swipeItem)
+            if (sender is SwipeItem swipeItem && swipeItem.BindingContext is PetItem item)
             {
-                PetItem item = swipeItem.BindingContext as PetItem;
-                if (item != null)
-                {
-                    await petItemDatabase.DeleteItemAsync(item);
-                    await LoadPetItemsAsync();
-                }
+                await petItemDatabase.DeleteItemAsync(item);
+                await LoadPetItemsAsync();
             }
         }
 
-        private async void OnEditSwipeItemInvoked(object? sender, EventArgs e)
+        async void OnEditSwipeItemInvoked(object? sender, EventArgs e)
         {
-            if (sender is SwipeItem swipeItem)
-            {
-                PetItem item = swipeItem.BindingContext as PetItem;
-                if (item != null)
-                    await Navigation.PushAsync(new AddEditItemPage(petItemDatabase, item));
-            }
+            if (sender is SwipeItem swipeItem && swipeItem.BindingContext is PetItem item)
+                await Navigation.PushAsync(new AddEditItemPage(petItemDatabase, item));
         }
-        private async void OnAddItemClicked(object? sender, EventArgs e)
+
+        async void OnAddItemClicked(object? sender, EventArgs e)
         {
             await Navigation.PushAsync(new AddEditItemPage(petItemDatabase));
         }
 
-        private async Task LoadPetItemsAsync()
+        async void OnAliveFilterClicked(object? sender, EventArgs e)
+        {
+            currentFilter = ListFilter.Alive;
+            UpdateFilterUi();
+            await LoadPetItemsAsync();
+        }
+
+        async void OnDeceasedFilterClicked(object? sender, EventArgs e)
+        {
+            currentFilter = ListFilter.Deceased;
+            UpdateFilterUi();
+            await LoadPetItemsAsync();
+        }
+
+        async void OnSettingsClicked(object? sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage(petItemDatabase));
+        }
+
+        void UpdateFilterUi()
+        {
+            var activeColor = Color.FromArgb("#E8E8E8");
+            var inactiveColor = Colors.Transparent;
+
+            AliveFilterButton.BackgroundColor = currentFilter == ListFilter.Alive ? activeColor : inactiveColor;
+            DeceasedFilterButton.BackgroundColor = currentFilter == ListFilter.Deceased ? activeColor : inactiveColor;
+            AddButton.IsVisible = currentFilter == ListFilter.Alive;
+        }
+
+        bool MatchesFilter(PetItem item) =>
+            currentFilter == ListFilter.Alive ? item.IsAlive : item.IsDeceased;
+
+        async Task LoadPetItemsAsync()
         {
             Persons.Clear();
-            var contactsFromDb = await petItemDatabase.GetItemsAsync();
-            foreach (var contact in contactsFromDb)
-            {
-                Persons.Add(contact);
-            }
+            var itemsFromDb = await petItemDatabase.GetItemsAsync();
+            foreach (var item in itemsFromDb.Where(MatchesFilter))
+                Persons.Add(item);
+
             var sorted = Persons.OrderByDescending(item => item.Offset.diff).ToList();
             for (int i = 0; i < sorted.Count; i++)
-            {
                 Persons.Move(Persons.IndexOf(sorted[i]), i);
-            }
         }
     }
 }

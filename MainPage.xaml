@@ -1,50 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PetAgeCounter.MainPage"
-             >
+             x:Class="PetAgeCounter.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <ListView ItemsSource="{Binding Persons}" SelectionMode="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Редактировать"
-                                            IconImageSource="pen.png"
-                                            BackgroundColor="LightGreen"
-                                            Invoked="OnEditSwipeItemInvoked" />
-                                        <SwipeItem Text="Удалить"
-                                            IconImageSource="delete.png"
-                                            BackgroundColor="LightPink"
-                                            Invoked="OnDeleteSwipeItemInvoked" />
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
-                                <HorizontalStackLayout>
-                                    <VerticalStackLayout>
-                                        <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"/>
-                                        <Label Text="{Binding BirthDate, StringFormat='{0:dd MMMM yyyy}'}" FontSize="Small" TextColor="Gray" />
-                                    </VerticalStackLayout>
-                                    <Label FontSize="Large" Text="{Binding FormattedOffset}" />
-                                </HorizontalStackLayout>
-                            </SwipeView>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+    <Grid RowDefinitions="*,Auto,Auto" Padding="0,0,0,8">
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="30,0" Spacing="25">
+                <ListView x:Name="ItemsList" ItemsSource="{Binding Persons}" SelectionMode="None" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Редактировать"
+                                                IconImageSource="pen.png"
+                                                BackgroundColor="LightGreen"
+                                                Invoked="OnEditSwipeItemInvoked" />
+                                            <SwipeItem Text="Удалить"
+                                                IconImageSource="delete.png"
+                                                BackgroundColor="LightPink"
+                                                Invoked="OnDeleteSwipeItemInvoked" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <HorizontalStackLayout Padding="0,8">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold"/>
+                                            <Label Text="{Binding BirthDate, StringFormat='{0:dd MMMM yyyy}'}" FontSize="Small" TextColor="Gray" />
+                                            <Label Text="{Binding DeathDate, StringFormat='Ушёл: {0:dd MMMM yyyy}'}"
+                                                   FontSize="Small"
+                                                   TextColor="Gray"
+                                                   IsVisible="{Binding IsDeceased}" />
+                                        </VerticalStackLayout>
+                                        <Label FontSize="Large" Text="{Binding FormattedOffset}" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </SwipeView>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Добавить" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnAddItemClicked"
-                HorizontalOptions="Fill" />
-        </VerticalStackLayout>
-    </ScrollView>
+                <Button x:Name="AddButton"
+                    Text="Добавить"
+                    Clicked="OnAddItemClicked"
+                    HorizontalOptions="Fill" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <BoxView Grid.Row="1" HeightRequest="1" Color="#E0E0E0" />
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Padding="12,8" ColumnSpacing="8">
+            <ImageButton x:Name="AliveFilterButton"
+                         Grid.Column="0"
+                         Source="neon_mouse.png"
+                         BackgroundColor="Transparent"
+                         HeightRequest="48"
+                         Aspect="AspectFit"
+                         Clicked="OnAliveFilterClicked" />
+            <ImageButton x:Name="DeceasedFilterButton"
+                         Grid.Column="1"
+                         Source="rainbow.svg"
+                         BackgroundColor="Transparent"
+                         HeightRequest="48"
+                         Aspect="AspectFit"
+                         Clicked="OnDeceasedFilterClicked" />
+            <ImageButton x:Name="SettingsButton"
+                         Grid.Column="2"
+                         Source="settings.svg"
+                         BackgroundColor="Transparent"
+                         HeightRequest="48"
+                         Aspect="AspectFit"
+                         Clicked="OnSettingsClicked" />
+        </Grid>
+    </Grid>
 
 </ContentPage>
